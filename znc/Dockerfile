@@ -1,4 +1,5 @@
-FROM homeassistant/armhf-base:3.7-p3
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 ENV GPG_KEY D5823CACB477191CAC0075555AE420CC0209989E
 
@@ -35,7 +36,7 @@ RUN set -x \
     && curl -fsSL "https://znc.in/releases/archive/znc-${ZNC_VERSION}.tar.gz" -o znc.tgz \
     && curl -fsSL "https://znc.in/releases/archive/znc-${ZNC_VERSION}.tar.gz.sig" -o znc.tgz.sig \
     && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "${GPG_KEY}" \
+    && gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys "${GPG_KEY}" \
     && gpg --batch --verify znc.tgz.sig znc.tgz \
     && rm -rf "$GNUPGHOME" \
     && tar -zxf znc.tgz --strip-components=1 \
