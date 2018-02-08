@@ -9,7 +9,7 @@
   "boot": "auto",
   "options": {},
   "schema": {},
-  "image": "torvitas/arm32v6-addons-znc",
+  "image": "torvitas/arm32v6-hassio-znc",
   "host_dbus" : "true",
   "ports": {
     "1337/tcp": 1337,
