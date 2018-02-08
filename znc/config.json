@@ -1,6 +1,6 @@
 {
   "name": "znc",
-  "version": "1.6.5-0",
+  "version": "1.6.5-1",
   "slug": "znc",
   "description": "ZNC, an advanced IRC bouncer",
   "url": "https://github.com/torvitas/znc/tree/master/znc",
@@ -9,7 +9,7 @@
   "boot": "auto",
   "options": {},
   "schema": {},
-  "image": "arm32v6/znc",
+  "image": "torvitas/arm32v6-addons-znc",
   "host_dbus" : "true",
   "ports": {
     "1337/tcp": 1337,

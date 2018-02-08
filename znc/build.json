@@ -1,0 +1,6 @@
+{
+  "build_from": {
+    "armhf": "arm32v6:znc:1.6.5"
+  },
+  "squash": false
+}
