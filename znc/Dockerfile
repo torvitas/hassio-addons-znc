@@ -1,4 +1,3 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM arm32v6:znc:1.6.5
 
 COPY src/ /
