@@ -1,6 +1,6 @@
 {
   "build_from": {
-    "armhf": "arm32v6:znc:1.6.5"
+    "armhf": "homeassistant/armhf-base:3.7-p3"
   },
   "squash": false
 }
