@@ -19,6 +19,11 @@ RUN set -x \
     && adduser -S znc \
     && addgroup -S znc \
     && apk add --no-cache --virtual runtime-dependencies \
+        znc \
+        znc-extra \
+        znc-modpython \
+        znc-modperl \
+        znc-doc \
         ca-certificates \
         cyrus-sasl \
         icu \
@@ -26,6 +31,7 @@ RUN set -x \
         tini \
         tzdata \
     && apk add --no-cache --virtual build-dependencies \
+        znc-dev \
         build-base \
         curl \
         cyrus-sasl-dev \
@@ -33,20 +39,7 @@ RUN set -x \
         icu-dev \
         libressl-dev \
         perl-dev \
-        python3-dev \
-    && mkdir /znc-src && cd /znc-src \
-    && curl -fsSL "https://znc.in/releases/archive/znc-${ZNC_VERSION}.tar.gz" -o znc.tgz \
-    && curl -fsSL "https://znc.in/releases/archive/znc-${ZNC_VERSION}.tar.gz.sig" -o znc.tgz.sig \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys "${GPG_KEY}" \
-    && gpg --batch --verify znc.tgz.sig znc.tgz \
-    && rm -rf "$GNUPGHOME" \
-    && tar -zxf znc.tgz --strip-components=1 \
-    && mkdir build && cd build \
-    && ../configure ${CONFIGUREFLAGS} \
-    && make $MAKEFLAGS \
-    && make install \
-    && cd / && rm -rf /znc-src
+        python3-dev
 
 #{CROSS_BUILD_END}
 

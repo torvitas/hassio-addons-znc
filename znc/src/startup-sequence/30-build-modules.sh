@@ -9,7 +9,7 @@ if [ -d "${DATADIR}/modules" ]; then
     if [ -n "$modules" ]; then
         # Build modules.
         echo "Building modules $modules..."
-        /opt/znc/bin/znc-buildmod $modules || exit 12
+        /usr/bin/znc-buildmod $modules || exit 12
     fi
 
     cd /
