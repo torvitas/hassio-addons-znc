@@ -1,2 +1,5 @@
 mkdir -p /data/configs
-cp -n /znc.conf /data/configs/znc.conf
+if [ ! -f /data/configs/znc.conf ]
+then
+    cp /znc.conf /data/configs/znc.conf
+fi
