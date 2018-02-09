@@ -5,6 +5,7 @@ sed -e s~\#{BUILD_FROM}~$(BASE_IMAGE)~g \
 endef
 
 BUILD=docker build --build-arg BUILD_FROM="$(BUILD_FROM)" -f $(DOCKERFILE) -t $(IMAGE) .
+RUN=docker run --rm -ti -v ${HOME}/.znc/:/data/ -p 1337:1337 $(IMAGE)
 
 BUILD_FROM=
 BASE_IMAGE=
@@ -21,6 +22,8 @@ armhf% : CROSS_BUILD_START="RUN [ \"cross-build-start\" ]"
 armhf% : CROSS_BUILD_END="RUN [ \"cross-build-end\" ]"
 armhf-build : Dockerfile.cross
 	$(BUILD)
+armhf-run : armhf-build
+	$(RUN)
 armhf-config : BASE_IMAGE=$(BUILD_FROM)
 armhf-config : DOCKERFILE=Dockerfile.armhf
 armhf-config : /proc/sys/fs/binfmt_misc /proc/sys/fs/binfmt_misc/register Dockerfile.armhf
@@ -76,16 +79,17 @@ index-config :
 	git add Dockerfile*
 
 # PHONY
-.PHONY : all config clean
+.PHONY : all config clean qemu
 all : armhf-build aarch64-build amd64-build i386-build
-config : default-config cross-config armhf-config aarch64-config amd64-config i386-config index-config
+config : clean default-config cross-config armhf-config aarch64-config amd64-config i386-config index-config
 clean : clean-local clean-armhf clean-aarch64 clean-amd64 clean-i386
+qemu : /proc/sys/fs/binfmt_misc /proc/sys/fs/binfmt_misc/register
 
 # TARGETS
 /proc/sys/fs/binfmt_misc :
-	sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+	mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
 /proc/sys/fs/binfmt_misc/register :
-	sudo echo ' :arm :M : :\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00 :\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff :/usr/bin/qemu-arm-static :' > /proc/sys/fs/binfmt_misc/register
+	echo ':arm:M::\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:/usr/bin/qemu-arm-static:' > /proc/sys/fs/binfmt_misc/register
 Dockerfile :
 	$(RENDER_DOCKER_FILE)
 Dockerfile.cross :
