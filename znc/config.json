@@ -1,6 +1,6 @@
 {
   "name": "znc",
-  "version": "1.6.5-1",
+  "version": "1.6.5-2",
   "slug": "znc",
   "description": "ZNC, an advanced IRC bouncer",
   "url": "https://github.com/torvitas/znc/tree/master/znc",
