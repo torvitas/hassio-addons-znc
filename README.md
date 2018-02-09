@@ -3,6 +3,7 @@
 Repository for hass.io addons.
 
 ZNC, an advanced IRC bouncer
+
 **Supported architectures**:
 [`armhf`](https://hub.docker.com/r/torvitas/armhf-hassio-znc/), [`aarch64`](https://hub.docker.com/r/torvitas/aarch64-hassio-znc/), [`amd64`](https://hub.docker.com/r/torvitas/amd64-hassio-znc/), [`i386`](https://hub.docker.com/r/torvitas/i386-hassio-znc/)
 
