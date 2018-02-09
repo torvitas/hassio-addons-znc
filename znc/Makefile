@@ -13,7 +13,7 @@ DOCKERFILE=Dockerfile
 CROSS_BUILD_START=
 CROSS_BUILD_END=
 
-.PHONY: all config clean hooks
+.PHONY: all config clean
 amd64: BUILD_FROM=resin/amd64-alpine:3.6
 amd64: Dockerfile
 	$(BUILD)
@@ -44,8 +44,13 @@ config-armhf: /proc/sys/fs/binfmt_misc /proc/sys/fs/binfmt_misc/register Dockerf
 clean-armhf:
 	rm -f Dockerfile.armhf
 
-config: hooks config-amd64 config-armhf
+config: Dockerfile config-amd64 config-armhf index-config
 clean: clean-local clean-amd64 clean-armhf
+
+index-config:
+	git add Dockerfile
+	git add Dockerfile.amd64
+	git add Dockerfile.armhf
 
 hooks: ../.git/hooks/pre-commit
 ../.git/hooks/pre-commit:

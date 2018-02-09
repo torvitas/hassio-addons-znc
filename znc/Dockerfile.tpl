@@ -1,4 +1,4 @@
-ARG BUILD_FROM=
+ARG BUILD_FROM=#{BUILD_FROM}
 FROM $BUILD_FROM
 
 ENV GPG_KEY D5823CACB477191CAC0075555AE420CC0209989E
@@ -13,7 +13,7 @@ ARG MAKEFLAGS=""
 
 ENV ZNC_VERSION 1.6.5
 
-
+#{CROSS_BUILD_START}
 
 RUN set -x \
     && adduser -S znc \
@@ -48,7 +48,7 @@ RUN set -x \
     && make install \
     && cd / && rm -rf /znc-src
 
-
+#{CROSS_BUILD_END}
 
 COPY src/ /
 
