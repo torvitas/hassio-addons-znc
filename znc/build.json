@@ -1,6 +1,9 @@
 {
   "build_from": {
-    "armhf": "resin/raspberry-pi-alpine:3.6"
+    "armhf": "resin/armhf-alpine:3.6",
+    "aarch64": "resin/aarch64-alpine:3.6",
+    "amd64": "resin/amd64-alpine:3.6",
+    "i386": "resin/i386-alpine:3.6"
   },
   "squash": false
 }
