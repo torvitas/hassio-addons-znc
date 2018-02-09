@@ -12,7 +12,6 @@
   "image": "torvitas/{arch}-hassio-znc",
   "host_dbus" : "true",
   "ports": {
-    "1337/tcp": 1337,
-    "80/tcp": 80
+    "1337/tcp": 1337
   }
 }
