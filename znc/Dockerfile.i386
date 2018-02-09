@@ -53,5 +53,6 @@ RUN set -x \
 COPY src/ /
 
 VOLUME /data
+EXPOSE [ 1337 ]
 
 ENTRYPOINT ["/entrypoint.sh"]

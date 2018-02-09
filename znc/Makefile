@@ -64,6 +64,11 @@ clean-i386 :
 	rm -f Dockerfile.i386
 
 # LOCAL
+default-config : Dockerfile
+cross-config : DOCKERFILE=Dockerfile.cross
+cross-config : CROSS_BUILD_START="RUN [ \"cross-build-start\" ]"
+cross-config : CROSS_BUILD_END="RUN [ \"cross-build-end\" ]"
+cross-config: Dockerfile.cross
 clean-local :
 	rm -f Dockerfile
 	rm -f Dockerfile.cross
@@ -73,7 +78,7 @@ index-config :
 # PHONY
 .PHONY : all config clean
 all : armhf-build aarch64-build amd64-build i386-build
-config : Dockerfile armhf-config aarch64-config amd64-config i386-config index-config
+config : default-config cross-config armhf-config aarch64-config amd64-config i386-config index-config
 clean : clean-local clean-armhf clean-aarch64 clean-amd64 clean-i386
 
 # TARGETS
