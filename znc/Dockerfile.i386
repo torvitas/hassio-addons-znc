@@ -1,4 +1,4 @@
-ARG BUILD_FROM=resin/armhf-alpine:3.6
+ARG BUILD_FROM=resin/i386-alpine:3.6
 FROM $BUILD_FROM
 
 ENV GPG_KEY D5823CACB477191CAC0075555AE420CC0209989E
@@ -13,7 +13,7 @@ ARG MAKEFLAGS=""
 
 ENV ZNC_VERSION 1.6.5
 
-RUN [ "cross-build-start" ]
+
 
 RUN set -x \
     && adduser -S znc \
@@ -48,7 +48,7 @@ RUN set -x \
     && make install \
     && cd / && rm -rf /znc-src
 
-RUN [ "cross-build-end" ]
+
 
 COPY src/ /
 
