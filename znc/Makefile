@@ -44,12 +44,12 @@ config-armhf: /proc/sys/fs/binfmt_misc /proc/sys/fs/binfmt_misc/register Dockerf
 clean-armhf:
 	rm -f Dockerfile.armhf
 
-config: config-amd64 config-armhf
+config: hooks config-amd64 config-armhf
 clean: clean-local clean-amd64 clean-armhf
 
 hooks: ../.git/hooks/pre-commit
 ../.git/hooks/pre-commit:
-	ln -s ../../.hooks/pre-commit.sh ../.git/hooks/pre-commit
+	ln -s ../../znc/.hooks/pre-commit.sh ../.git/hooks/pre-commit
 
 /proc/sys/fs/binfmt_misc:
 	sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
