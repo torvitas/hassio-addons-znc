@@ -1,6 +1,6 @@
 {
   "build_from": {
-    "armhf": "homeassistant/armhf-base:3.7-p3"
+    "armhf": "resin/raspberry-pi-alpine:3.6"
   },
   "squash": false
 }
