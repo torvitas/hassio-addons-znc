@@ -1,18 +1,20 @@
-ARG BUILD_FROM=
+ARG BUILD_FROM=hassioaddons/base:4.0.2
 FROM $BUILD_FROM
 
-ENV GPG_KEY D5823CACB477191CAC0075555AE420CC0209989E
-
-# modperl and modpython are built, but won't be loadable.
-# :full image installs perl and python3 again, making these modules loadable.
+ARG VERSION_EXTRA=""
 
 # musl silently doesn't support AI_ADDRCONFIG yet, and ZNC doesn't support Happy Eyeballs yet.
 # Together they cause very slow connection. So for now IPv6 is disabled here.
-ARG CONFIGUREFLAGS="--prefix=/opt/znc --enable-cyrus --enable-perl --enable-python --disable-ipv6"
+ARG CMAKEFLAGS="-DVERSION_EXTRA=${VERSION_EXTRA} -DCMAKE_INSTALL_PREFIX=/opt/znc -DWANT_CYRUS=YES -DWANT_PERL=YES -DWANT_PYTHON=YES -DWANT_IPV6=NO"
 ARG MAKEFLAGS=""
 
-ENV ZNC_VERSION 1.6.5
+ARG ZNC_VERSION
 
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Add env
+ENV TERM="xterm-256color"
 
 
 RUN set -x \
@@ -29,23 +31,33 @@ RUN set -x \
         icu \
         su-exec \
         tini \
-        tzdata \
-    && apk add --no-cache --virtual build-dependencies \
-        znc-dev \
-        build-base \
-        curl \
-        cyrus-sasl-dev \
-        gnupg \
-        icu-dev \
-        libressl-dev \
-        perl-dev \
-        python3-dev
-
-
+        tzdata
 
 COPY src/ /
 
-VOLUME /data
+VOLUME /znc-data
 EXPOSE 1337
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+# Build arguments
+ARG BUILD_DATE
+ARG BUILD_REF
+ARG BUILD_VERSION
+
+# Labels
+LABEL \
+    io.hass.name="ZNC IRC Bouncer" \
+    io.hass.description="ZNC, an advanced IRC bouncer" \
+    io.hass.arch="${BUILD_ARCH}" \
+    io.hass.type="addon" \
+    io.hass.version=${BUILD_VERSION} \
+    maintainer="Sascha Marcel Schmidt <mail@saschaschmidt.net>" \
+    org.label-schema.description="ZNC, an advanced IRC bouncer" \
+    org.label-schema.build-date=${BUILD_DATE} \
+    org.label-schema.name="ZNC IRC Bouncer" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.usage="https://github.com/torvitas/hassio-addons-znc/tree/master/README.md" \
+    org.label-schema.vcs-ref=${BUILD_REF} \
+    org.label-schema.vcs-url="https://github.com/torvitas/hassio-addons-znc" \
+    org.label-schema.vendor="Community Hass.io Add-ons"

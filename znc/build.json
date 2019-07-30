@@ -1,9 +1,12 @@
 {
+  "squash": false,
   "build_from": {
-    "armhf": "resin/armhf-alpine:3.6",
-    "aarch64": "resin/aarch64-alpine:3.6",
-    "amd64": "resin/amd64-alpine:3.6",
-    "i386": "resin/i386-alpine:3.6"
+    "armhf": "hassioaddons/base:4.0.2",
+    "aarch64": "hassioaddons/base:4.0.2",
+    "amd64": "hassioaddons/base:4.0.2",
+    "i386": "hassioaddons/base:4.0.2"
   },
-  "squash": false
+  "args": {
+    "ZNC_VERSION": "1.7.4"
+  }
 }
